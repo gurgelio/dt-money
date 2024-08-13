@@ -13,9 +13,7 @@ export function Summary() {
 			</SummaryCard>
 			<SummaryCard
 				title="Saídas"
-				icon={
-					<ArrowCircleDown className="text-rose-600 opacity-70" size={32} />
-				}
+				icon={<ArrowCircleDown className="text-rose-800" size={32} />}
 			>
 				R$ 17.400,00
 			</SummaryCard>

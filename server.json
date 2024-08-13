@@ -1,0 +1,19 @@
+{
+  "transactions": [
+    {
+      "id": 1,
+      "description": "Desenvolvimento de site",
+      "type": "income",
+      "category": "Venda",
+      "price": 14000,
+      "createdAt": "2024-08-13T19:29:34.974Z"
+    },
+    {
+      "id": 2,
+      "description": "Hamurguer",
+      "type": "expense",
+      "price": 60,
+      "createdAt": "2024-08-13T19:31:34.974Z"
+    }
+  ]
+}
