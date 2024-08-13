@@ -1,0 +1,13 @@
+{
+	"name": "Ignite Feed",
+	"short_name": "Ignite",
+	"icons": [
+		{
+			"src": "google-touch-icon.png",
+			"sizes": "512x512"
+		}
+	],
+	"background_color": "#111827",
+	"theme_color": "#00B37E",
+	"display": "fullscreen"
+}
