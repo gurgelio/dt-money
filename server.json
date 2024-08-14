@@ -12,6 +12,7 @@
       "id": 2,
       "description": "Hamurguer",
       "type": "expense",
+      "category": "Alimentação",
       "price": 60,
       "createdAt": "2024-08-13T19:31:34.974Z"
     }

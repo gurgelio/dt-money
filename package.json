@@ -5,21 +5,25 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000",
-    "dev:server": "json-server server.json -p 3333",
+    "dev:server": "json-server server.json -p 3333 -w -d 500",
     "build": "tsc -b && vite build",
     "lint": "biome lint",
     "format": "biome format",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-radio-group": "^1.2.0",
     "@tanstack/react-query": "^5.51.23",
+    "axios": "^1.7.4",
     "clsx": "^2.1.1",
     "phosphor-react": "^1.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tailwind-merge": "^2.5.2"
+    "react-hook-form": "^7.52.2",
+    "tailwind-merge": "^2.5.2",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
@@ -27,7 +31,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
-    "json-server": "^1.0.0-beta.1",
+    "json-server": "^0.17.4",
     "postcss": "^8.4.41",
     "tailwindcss": "^3.4.9",
     "typescript": "^5.5.3",

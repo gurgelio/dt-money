@@ -1,26 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import type { ComponentProps, PropsWithChildren } from "react";
+import type { ComponentProps } from "react";
 import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
+import { useDebounce } from "../../hooks/useDebounce";
+import { useTransactions } from "../../hooks/useTransactions";
 import { cn } from "../../utils/cn";
-import { SearchForm } from "./components/SearchForm";
-
-interface Transaction {
-	category: string;
-	createdAt: Date;
-	description: string;
-	id: number;
-	price: number;
-	type: "income" | "expense";
-}
+import { dateFormatter, priceFormatter } from "../../utils/formatter";
 
 export function Transactions() {
-	const { data, error } = useQuery<Transaction[]>({
-		queryKey: ["transactions"],
-		queryFn: async () =>
-			fetch("http://localhost:3333/transactions").then((r) => r.json()),
-		initialData: [],
-	});
+	const [query, setQuery] = useDebounce("", 300);
+	const { data, error, isPending } = useTransactions(query);
 
 	if (error != null) {
 		return <div>Ocorreu um erro.</div>;
@@ -32,31 +20,41 @@ export function Transactions() {
 			<Summary />
 
 			<main className="w-full max-w-6xl mt-16 mx-auto px-6">
-				<SearchForm />
-				<table className="w-full border-separate border-spacing-2 mt-6">
-					<tbody>
-						{data.map((t) => (
-							<tr key={t.id}>
-								<Td width="50%">{t.description}</Td>
-								<Td>
-									<Price type={t.type}>{t.price}</Price>
-								</Td>
-								<Td>{t.category}</Td>
-								<Td>{t.createdAt.toString()}</Td>
-							</tr>
-						))}
-					</tbody>
-				</table>
+				<input
+					type="search"
+					className="w-full bg-gray-900 text-gray-300 rounded-md p-4 placeholder:text-gray-500"
+					placeholder="Busque por transações"
+					onChange={(e) => setQuery(e.target.value)}
+				/>
+				{isPending ? (
+					<p>Carregando...</p>
+				) : (
+					<table className="w-full border-separate border-spacing-2 mt-6">
+						<tbody>
+							{data.map((t) => (
+								<tr key={t.id}>
+									<Td width="50%">{t.description}</Td>
+									<Td>
+										<Price type={t.type} price={t.price} />
+									</Td>
+									<Td>{t.category}</Td>
+									<Td>{dateFormatter.format(new Date(t.createdAt))}</Td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				)}
 			</main>
 		</div>
 	);
 }
 
-interface PriceProps extends PropsWithChildren {
+interface PriceProps {
 	type?: "income" | "expense";
+	price: number;
 }
 
-function Price({ children, type = "income" }: PriceProps) {
+function Price({ price, type = "income" }: PriceProps) {
 	return (
 		<span
 			className={cn("font-bold", {
@@ -64,7 +62,7 @@ function Price({ children, type = "income" }: PriceProps) {
 				"text-emerald-600": type === "income",
 			})}
 		>
-			{type === "expense" ? "-" : ""} R$ {children}
+			{type === "expense" && "-"} {priceFormatter.format(price)}
 		</span>
 	);
 }
